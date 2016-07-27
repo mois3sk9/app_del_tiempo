@@ -8,8 +8,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private List<Weather> weatherList = new ArrayList<>();
+
+    private WeatherArrayAdapter weatherArrayAdapter;
+
+    private ListView weatherListView; // displays weather info
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +30,29 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        weatherListView = (ListView) findViewById(R.id.weatherListView);
+        weatherArrayAdapter = new WeatherArrayAdapter(this, weatherList);
+        weatherListView.setAdapter(weatherArrayAdapter);
+
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                EditText locationEditText =
+                        (EditText) findViewById(R.id.locationEditText);
+                URL url = createURL(locationEditText.getText().toString());
+
+                if(url != null) {
+                    dismissKeyboard(locationEditText);
+                    GetWeatherTask getLocalWeatherTask = new GetWeatherTask();
+                    getLocalWeatherTask.execute(url);
+                } else {
+                    Snackbar.make(findViewById(R.id.CoordinatorLayout),
+                            R.string.invalid_url, Snackbar.LENGTH_LONG).show();
+                }
+
             }
         });
     }

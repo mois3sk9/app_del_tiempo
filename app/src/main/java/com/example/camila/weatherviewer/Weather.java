@@ -20,7 +20,7 @@ public class Weather {
     public final String iconUrl;
 
 
-    public Weather(long timeStamp, double minTemp, double maxTemp, double humidity, String description, String iconName){
+    public Weather(long timeStamp, double minTemp, double maxTemp, double humidity, String description, String iconName) {
         NumberFormat numberFormat = NumberFormat.getInstance();
         numberFormat.setMaximumFractionDigits(0);
         this.dayOfWeek = getConvertTimeStampToDay(timeStamp);
