@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WeatherViewer</string>
+    <string name="hint_text">Ingrese la ciudad</string>
+    <string name="humidity">Humedad: %s</string>
+    <string name="low_temp">Baja: %s</string>
+    <string name="high_temp">Alta: %s</string>
+</resources>
