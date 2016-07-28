@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WeatherViewer</string>
+    <string name="app_name">Visualizador del tiempo</string>
     <string name="hint_text">Ingrese la ciudad</string>
     <string name="humidity">Humedad: %s</string>
-    <string name="low_temp">Baja: %s</string>
-    <string name="high_temp">Alta: %s</string>
+    <string name="low_temp">Mínima: %s</string>
+    <string name="high_temp">Máxima: %s</string>
+    <string name="error_empty">Ingrese el nombre de una ciudad</string>
 </resources>

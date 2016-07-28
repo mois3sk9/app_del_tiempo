@@ -1,5 +1,6 @@
 package com.example.camila.weatherviewer;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,9 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,14 +37,21 @@ public class MainActivity extends AppCompatActivity {
     private WeatherArrayAdapter weatherArrayAdapter;
 
     private ListView weatherListView; // displays weather info
+    private ProgressBar progressbar;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        requestWindowFeature(Window.FEATURE_PROGRESS);
+        setProgressBarIndeterminateVisibility(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        progressbar = (ProgressBar) findViewById(R.id.appProgressBar);
         weatherListView = (ListView) findViewById(R.id.weatherListView);
         weatherArrayAdapter = new WeatherArrayAdapter(this, weatherList);
         weatherListView.setAdapter(weatherArrayAdapter);
@@ -54,13 +64,26 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText locationEditText =
                         (EditText) findViewById(R.id.locationEditText);
-                URL url = createURL(locationEditText.getText().toString());
+                String search = locationEditText.getText().toString();
+                if(search.isEmpty()) {
+                    locationEditText.setError(getString(R.string.error_empty));
+                    return;
+                }
+                /*progress = new ProgressDialog(view.getContext());
+                progress.setMessage("Cargando");
+                progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progress.setIndeterminate(true);
+                progress.show();*/
+
+                URL url = createURL(search);
 
                 if(url != null) {
+                    progressbar.setVisibility(View.VISIBLE);
                     dismissKeyboard(locationEditText);
                     GetWeatherTask getLocalWeatherTask = new GetWeatherTask();
                     getLocalWeatherTask.execute(url);
                 } else {
+
                     Snackbar.make(findViewById(R.id.CoordinatorLayout),
                             R.string.invalid_url, Snackbar.LENGTH_LONG).show();
                 }
@@ -138,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
             convertJSONtoArrayList(jsonObject); // repopulate weatherList
             weatherArrayAdapter.notifyDataSetChanged(); // rebind to ListView
             weatherListView.smoothScrollToPosition(0); // scroll to top
+            progressbar.setVisibility(View.INVISIBLE);
         }
         private void convertJSONtoArrayList(JSONObject forecast) {
             weatherList.clear();
