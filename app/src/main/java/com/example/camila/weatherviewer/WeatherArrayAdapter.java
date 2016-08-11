@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class WeatherArrayAdapter extends ArrayAdapter<Weather> {
         Weather day = getItem(position);
         ViewHolder viewHolder;
         if(convertView == null) {
+            Log.d("Donde","convert view null");
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.list_item, parent, false);
@@ -60,6 +62,7 @@ public class WeatherArrayAdapter extends ArrayAdapter<Weather> {
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
+            Log.d("Donde","convert NO null");
         }
 
         if(bitmaps.containsKey(day.iconUrl)) {

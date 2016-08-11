@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private WeatherArrayAdapter weatherArrayAdapter;
 
-    private ListView weatherListView; // displays weather info
+    private ListView weatherListView;//muestra la informacion
     private ProgressBar progressbar;
     ProgressDialog progress;
 
@@ -158,9 +158,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
-            convertJSONtoArrayList(jsonObject); // repopulate weatherList
-            weatherArrayAdapter.notifyDataSetChanged(); // rebind to ListView
-            weatherListView.smoothScrollToPosition(0); // scroll to top
+            convertJSONtoArrayList(jsonObject);
+            weatherArrayAdapter.notifyDataSetChanged();
+            weatherListView.smoothScrollToPosition(0);
             progressbar.setVisibility(View.INVISIBLE);
         }
         private void convertJSONtoArrayList(JSONObject forecast) {
